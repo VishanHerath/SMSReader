@@ -10,13 +10,9 @@ import android.content.pm.PackageManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
-
-
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import java.util.ArrayList;
 
 
@@ -58,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             final int REQUEST_CODE_ASK_PERMISSIONS = 123;
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
         }
-
+//justMadeAChange
     }
     public void refreshSmsInbox() {
         ContentResolver contentResolver = getContentResolver();
@@ -68,11 +64,10 @@ public class MainActivity extends AppCompatActivity {
         if (indexBody < 0 || !smsInboxCursor.moveToFirst()) return;
         arrayAdapter.clear();
         do {
-            if(smsInboxCursor.getString(indexAddress).equals("SAMPATHCARD")) {
                 String str = "SMS From: " + smsInboxCursor.getString(indexAddress) +
                         "\n" + smsInboxCursor.getString(indexBody) + "\n";
                 arrayAdapter.add(str);
-            }
+
         } while (smsInboxCursor.moveToNext());
     }
 
