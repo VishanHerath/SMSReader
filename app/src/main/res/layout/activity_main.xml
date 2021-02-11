@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,12 +9,44 @@
     android:padding="10dp">
 
     <!--   ListVivew    -->
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rect_shape"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"
-        android:id="@+id/SMSList" />
 
-</LinearLayout>
+    <ListView
+        android:id="@+id/SMSList"
+        android:layout_width="wrap_content"
+        android:layout_height="585dp"
+        android:background="@drawable/rect_shape" />
+
+    <EditText
+        android:id="@+id/phoneNumTxt"
+        android:layout_width="290dp"
+        android:layout_height="43dp"
+        android:layout_below="@+id/SMSList"
+        android:textColor="@color/black"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="58dp"
+        android:background="@color/white" />
+
+    <Button
+        android:id="@+id/addNumBtn"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phoneNumTxt"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="43dp"
+        android:layout_toStartOf="@+id/viewMssgBtn"
+        android:onClick="setNum"
+        android:text="@string/add" />
+
+    <Button
+        android:id="@+id/viewMssgBtn"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phoneNumTxt"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="43dp"
+        android:onClick="viewMssgs"
+        android:text="@string/view" />
+
+</RelativeLayout>

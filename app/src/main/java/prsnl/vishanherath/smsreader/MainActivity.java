@@ -1,9 +1,12 @@
 package prsnl.vishanherath.smsreader;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
@@ -22,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> smsMessagesList = new ArrayList<String>();
     ListView smsListView;
     ArrayAdapter arrayAdapter;
+    EditText phoneNum;
+    Button addNum;
+    String numberStr = "";
+    SharedPreferences sharedPref;
+    static String SHARED_PREF = "sharedPrefs";
+    SharedPreferences.Editor edPref;
 
     public static MainActivity instance() {
         return inst;
@@ -38,9 +47,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         smsListView = (ListView) findViewById(R.id.SMSList);
 
+        sharedPref = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        edPref = sharedPref.edit();
+        //numberStr = sharedPref.getString("number", "null");
+
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, smsMessagesList);
         smsListView.setAdapter(arrayAdapter);
-
+        phoneNum = findViewById(R.id.phoneNumTxt);
+        addNum = findViewById(R.id.addNumBtn);
 
         // Add SMS Read Permision At Runtime
         // Todo : If Permission Is Not GRANTED
@@ -54,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
             final int REQUEST_CODE_ASK_PERMISSIONS = 123;
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
         }
-//justMadeAChange
     }
     public void refreshSmsInbox() {
+        numberStr = sharedPref.getString("number","null");
         ContentResolver contentResolver = getContentResolver();
         Cursor smsInboxCursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, null, null, null);
         int indexBody = smsInboxCursor.getColumnIndex("body");
@@ -64,10 +78,11 @@ public class MainActivity extends AppCompatActivity {
         if (indexBody < 0 || !smsInboxCursor.moveToFirst()) return;
         arrayAdapter.clear();
         do {
+            if(smsInboxCursor.getString(indexAddress).equals(numberStr)) {
                 String str = "SMS From: " + smsInboxCursor.getString(indexAddress) +
                         "\n" + smsInboxCursor.getString(indexBody) + "\n";
                 arrayAdapter.add(str);
-
+            }
         } while (smsInboxCursor.moveToNext());
     }
 
@@ -92,7 +107,16 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Todo : Thanks For Watching...
+    }
+
+    public void setNum(View view){
+        String temp = phoneNum.getText().toString();
+        edPref.putString("number", temp);
+        edPref.commit();
+    }
+
+    public void viewMssgs(View view){
+        refreshSmsInbox();
     }
 
 }
