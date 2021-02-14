@@ -3,8 +3,9 @@
     package="prsnl.vishanherath.smsreader">
 
     <uses-permission android:name="android.permission.READ_SMS"/>
-
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
+    <supports-screens android:anyDensity="true"/>
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
